@@ -23,9 +23,9 @@
 |*|  You'll find a copy of the MIT license in the LICENSE file.
 \*/
 
-namespace KeyGen {
+namespace KeyGenLib {
 
-class KeyGenLib {
+class KeyGen {
 	
 	/** Character Sets */
 	const NUMERIC = '1234567890';

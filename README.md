@@ -14,7 +14,7 @@ The library will be automaticaly included by the framework.
 
 ### License
 
-Copyright (C) 2017 Matiboux (Mathieu Guérin)
+Copyright (C) 2017 Matiboux (Mathieu Guérin)  
 *You'll find a copy of the MIT license in the **LICENSE** file.*
 
 ---
