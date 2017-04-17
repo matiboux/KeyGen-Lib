@@ -21,6 +21,13 @@
 |*|  
 |*|  Copyright (C) 2017 Matiboux (Mathieu Guérin)
 |*|  You'll find a copy of the MIT license in the LICENSE file.
+|*|  
+|*|  --- --- ---
+|*|  
+|*|  Releases date:
+|*|  - VERSION 1:
+|*|    * v1.0.0: April 15, 2017
+|*|       1.0.1: [WIP]
 \*/
 
 namespace KeyGenLib {
@@ -39,7 +46,7 @@ class KeyGen {
 	private static $defaultLowercase = true;
 	private static $defaultUppercase = true;
 	private static $defaultSpecial = false;
-	private static $defaultRedundancy = false;
+	private static $defaultRedundancy = true;
 	
 	private static $length = null;
 	private static $numeric = null;
@@ -101,6 +108,7 @@ class KeyGen {
 		
 		if(empty(self::$length)) self::setError('ERR_EMPTY_LENGTH');
 		else if(self::$length < 0) self::setError('ERR_NEGATIVE_LENGTH');
+		else if(!is_numeric(self::$length)) self::setError('ERR_LENGTH_NOT_NUMERIC');
 		else if(!self::$length) self::setError('ERR_LENGTH_NULL');
 		else if(empty($charactersSet)) self::setError('ERR_EMPTY_CHARACTERS_SET');
 		
@@ -125,10 +133,11 @@ class KeyGen {
 	
 	/** Set / Clear Error */
 	private static function setError($id) {
-		if($id == 'ERR_EMPTY_LENGTH' OR $id == 2) self::$lastError = array('id' => 2, 'code' => 'ERR_EMPTY_LENGTH', 'message' => 'The keygen length parameter cannot be empty.');
-		if($id == 'ERR_NEGATIVE_LENGTH' OR $id == 3) self::$lastError = array('id' => 3, 'code' => 'ERR_NEGATIVE_LENGTH', 'message' => 'The keygen length parameter cannot be negative.');
-		if($id == 'ERR_LENGTH_NULL' OR $id == 4) self::$lastError = array('id' => 4, 'code' => 'ERR_LENGTH_NULL', 'message' => 'The keygen length parameter cannot be null.');
-		if($id == 'ERR_EMPTY_CHARACTERS_SET' OR $id == 5) self::$lastError = array('id' => 5, 'code' => 'ERR_EMPTY_CHARACTERS_SET', 'message' => 'The character set cannot be empty.');
+		if(array_search($id, $errorInfos = array('id' => 2, 'code' => 'ERR_EMPTY_LENGTH', 'message' => 'The keygen length parameter cannot be empty.'))) self::$lastError = $errorInfos;
+		else if(array_search($id, $errorInfos = array('id' => 3, 'code' => 'ERR_NEGATIVE_LENGTH', 'message' => 'The keygen length parameter cannot be negative.'))) self::$lastError = $errorInfos;
+		else if(array_search($id, $errorInfos = array('id' => 4, 'code' => 'ERR_LENGTH_NULL', 'message' => 'The keygen length parameter cannot be null.'))) self::$lastError = $errorInfos;
+		else if(array_search($id, $errorInfos = array('id' => 5, 'code' => 'ERR_EMPTY_CHARACTERS_SET', 'message' => 'The character set cannot be empty.'))) self::$lastError = $errorInfos;
+		else if(array_search($id, $errorInfos = array('id' => 6, 'code' => 'ERR_LENGTH_NOT_NUMERIC', 'message' => 'The keygen length parameter must be numeric.'))) self::$lastError = $errorInfos;
 		else self::$lastError = array('id' => 1, 'code' => 'ERR_UNKNOWN', 'message' => 'An unknown error occurred.');
 	}
 	private static function clearError() { self::$lastError = null; }
