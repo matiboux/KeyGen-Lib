@@ -21,6 +21,13 @@
 |*|  
 |*|  Copyright (C) 2017 Matiboux (Mathieu Guérin)
 |*|  You'll find a copy of the MIT license in the LICENSE file.
+|*|  
+|*|  --- --- ---
+|*|  
+|*|  Releases date:
+|*|  - VERSION 1:
+|*|    * v1.0.0: April 15, 2017
+|*|       1.0.1: [WIP]
 \*/
 
 namespace KeyGenLib {
