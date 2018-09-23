@@ -19,6 +19,7 @@
 |*|  
 |*|  --- --- ---
 |*|  
+|*|  MIT License
 |*|  Copyright (C) 2017 Matiboux (Mathieu Guérin)
 |*|  You'll find a copy of the MIT license in the LICENSE file.
 |*|  
@@ -40,7 +41,7 @@ class KeyGen {
 	const UPPERCASE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 	const SPECIAL = '!#$%&\()+-;?@[]^_{|}';
 	
-	/** Parameters */
+	/** Default Values */
 	private static $defaultLength = 12;
 	private static $defaultNumeric = true;
 	private static $defaultLowercase = true;
@@ -48,6 +49,7 @@ class KeyGen {
 	private static $defaultSpecial = false;
 	private static $defaultRedundancy = true;
 	
+	/** Parameters */
 	private static $length = null;
 	private static $numeric = null;
 	private static $lowercase = null;
@@ -55,14 +57,16 @@ class KeyGen {
 	private static $special = null;
 	private static $redundancy = null;
 	
+	/** Indicators */
+	private static $defaultParameters = true;
 	private static $forcedRedundancy = false;
 	
-	/** Errors */
+	/** Error */
 	private static $lastError = null;
 	
-	/** ------------------ */
-	/**  Params functions  */
-	/** ------------------ */
+	/** ----------------------- */
+	/**  Parameters Management  */
+	/** ----------------------- */
 	
 	public static function setParams($length = null, $numeric = null, $lowercase = null, $uppercase = null, $special = null, $redundancy = null) {
 		self::$length = isset($length) ? $length : self::$defaultLength;
@@ -71,7 +75,11 @@ class KeyGen {
 		self::$uppercase = isset($uppercase) ? $uppercase : self::$defaultUppercase;
 		self::$special = isset($special) ? $special : self::$defaultSpecial;
 		self::$redundancy = isset($redundancy) ? $redundancy : self::$defaultRedundancy;
+		
+		if(self::getParams() == self::getDefaultParams()) self::$defaultParameters = true;
+		else self::$defaultParameters = false;
 	}
+	
 	public static function updateParams($length = null, $numeric = null, $lowercase = null, $uppercase = null, $special = null, $redundancy = null) {
 		if(isset($length)) self::$length = $length;
 		else if(!isset(self::$length)) self::$length = self::$defaultLength;
@@ -85,17 +93,40 @@ class KeyGen {
 		else if(!isset(self::$special)) self::$special = self::$defaultSpecial;
 		if(isset($redundancy)) self::$redundancy = $redundancy;
 		else if(!isset(self::$redundancy)) self::$redundancy = self::$defaultRedundancy;
+		
+		if(self::getParams() == self::getDefaultParams()) self::$defaultParameters = true;
+		else self::$defaultParameters = false;
 	}
-	public static function resetParams() { self::setParams(); }
 	
-	public static function getDefaultParams() { return array('length' => self::$defaultLength, 'numeric' => self::$defaultNumeric, 'lowercase' => self::$defaultLowercase, 'uppercase' => self::$defaultUppercase, 'special' => self::$defaultSpecial, 'redundancy' => self::$defaultRedundancy); }
-	public static function getParams() { return array('length' => isset(self::$length) ? self::$length : self::$defaultLength, 'numeric' => isset(self::$numeric) ? self::$numeric : self::$defaultNumeric, 'lowercase' => isset(self::$lowercase) ? self::$lowercase : self::$defaultLowercase, 'uppercase' => isset(self::$uppercase) ? self::$uppercase : self::$defaultUppercase, 'special' => isset(self::$special) ? self::$special : self::$defaultSpecial, 'redundancy' => isset(self::$redundancy) ? self::$redundancy : self::$defaultRedundancy); }
+	public static function resetParams() { return self::setParams(); }
 	
-	/** ------------------ */
-	/**  KeyGen functions  */
-	/** ------------------ */
+	public static function getDefaultParams() {
+		return array('length' => self::$defaultLength,
+			'numeric' => self::$defaultNumeric,
+			'lowercase' => self::$defaultLowercase,
+			'uppercase' => self::$defaultUppercase,
+			'special' => self::$defaultSpecial,
+			'redundancy' => self::$defaultRedundancy);
+	}
 	
-	/** KeyGen function */
+	public static function getParams() {
+		return array('length' => isset(self::$length) ? self::$length : self::$defaultLength,
+		'numeric' => isset(self::$numeric) ? self::$numeric : self::$defaultNumeric,
+		'lowercase' => isset(self::$lowercase) ? self::$lowercase : self::$defaultLowercase,
+		'uppercase' => isset(self::$uppercase) ? self::$uppercase : self::$defaultUppercase,
+		'special' => isset(self::$special) ? self::$special : self::$defaultSpecial,
+		'redundancy' => isset(self::$redundancy) ? self::$redundancy : self::$defaultRedundancy);
+	}
+	
+	public static function isDefaultParameters() {
+		return self::$defaultParameters;
+	}
+	
+	/** ---------------------- */
+	/**  KeyGen Core functions */
+	/** ---------------------- */
+	
+	/** Keygen Generator */
 	public static function keygen($length = null, $numeric = null, $lowercase = null, $uppercase = null, $special = null, $redundancy = null) {
 		self::clearError();
 		self::updateParams($length, $numeric, $lowercase, $uppercase, $special, $redundancy);
@@ -125,6 +156,7 @@ class KeyGen {
 			return $keygen;
 		} else return false;
 	}
+	
 	public static function isForcedRedundancy() { return self::$forcedRedundancy; }
 	
 	/** ------------------ */
@@ -141,7 +173,7 @@ class KeyGen {
 		else self::$lastError = array('id' => 1, 'code' => 'ERR_UNKNOWN', 'message' => 'An unknown error occurred.');
 	}
 	private static function clearError() { self::$lastError = null; }
-	public static function isError() { return !empty(self::$lastError); }
+	public static function isError() { return self::$lastError !== null; }
 	
 	/** Get Error Infos */
 	public static function getErrorInfos() { return self::isError() ? self::$lastError : false; }
