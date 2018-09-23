@@ -41,7 +41,7 @@ $keygen = KeyGen::keygen($length, $numeric, $lowercase, $uppercase, $special, $r
 
 $result['type'] = 'keygen';
 if($result['error'] = KeyGen::isError())
-	$result['errorInfos'] = KeyGen::getErrorInfos();
+	$result['error-infos'] = KeyGen::getErrorInfos();
 $result['response'] = urlencode($keygen);
 
 $result['parameters'] = KeyGen::getParams();
