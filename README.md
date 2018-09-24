@@ -1,37 +1,46 @@
-# KeyGen Library v1.0.0
+# KeyGen Lib – v1.1.0
 
-**KeyGen Library** is an *open source random password generator* PHP library.  
+**KeyGen Library** is an *open source PHP library for random password generation*.  
 Want to know more about KeyGen or its creator? [Go to the "About" section](#about)!
 
-### Start using it!
+## Get Started
 
-[Download the latest release](https://github.com/matiboux/KeyGen-Lib/releases/latest), extract the "KeyGen-Lib/" folder in your working directory and include the **KeyGen-Lib/KeyGen-Core.php** file to your PHP script. 
+[Download the latest release](https://github.com/matiboux/KeyGen-Lib/releases/latest), extract the "KeyGen-Lib/" folder in your working directory and include the **KeyGen-Lib/KeyGen-Core.php** file in your PHP script, and start using it.  
+You can also use the **api.php** file as a working example and learn from it.
 
-For use with [Oli](https://github.com/OliFramework/Oli), extract the "KeyGen-Lib/" folder directly in the framework's **addons/** folder.  
-The library will be automaticaly included by the framework.
+### How to use it?
+
+You'll find help about that in [the wiki](https://github.com/matiboux/KeyGen-Lib/wiki) of this repository on Github.
+One page is about [how to use the library tools](https://github.com/matiboux/KeyGen-Lib/wiki/Documentation), and another page can help you understand [the possible errors](https://github.com/matiboux/KeyGen-Lib/wiki/Errors) you may encounter.
+
+### Using Oli Framework
+
+To use this library with [Oli](https://github.com/matiboux/Oli), add the "KeyGen-Lib/" folder directly into the framework **addons/** folder. The library will be automatically included to the website by the framework.  
+Then, you can start using the library like you would have without the framework.
+
+## About the API
+
+The API is provided an open-source working example.
+To learn more, [visit its wiki page](https://github.com/matiboux/KeyGen-Lib/wiki/API-Usage).
 
 ---
 
-### License – MIT
+## MIT License
 
-Copyright (C) 2017 Matiboux (Mathieu Guérin)  
+Copyright (c) 2017 Matiboux (Mathieu Guérin)  
 *You'll find a copy of the MIT license in the **LICENSE** file.*
 
----
+## About
 
-### About
+**KeyGen** is an *open source random password generator* service, also created by Matiboux.  
+Since its beginning, the project consisted in providing a password generation service on a website. The initial source code was then open sourced, and an API was created and is publicly available to everyone.
+
+[**Oli**](https://github.com/matiboux/Oli) is an *open source PHP framework*, also created by Matiboux.
 
 **Creator & Developer**: Matiboux (Mathieu Guérin)  
 Want to get in touch with me? Here's how:
  - **Email**: [matiboux@gmail.com](mailto:matiboux@gmail.com)
- - **Github**: [@matiboux](https://github.com/Matiboux)
- - **Twitter**: [@Matiboux](https://twitter.com/Matiboux)
  - **Telegram**: [@Matiboux](https://t.me/Matiboux)
-
-**KeyGen** is an *open source random password generator*, also created by Matiboux.  
-Since its beginning, the project consist in providing an open password generation service over a website. An API is also available for developers.
-
-[**Oli**](https://github.com/OliFramework/Oli) is an *open source PHP framework*, also created by Matiboux.
 
 ---
 
