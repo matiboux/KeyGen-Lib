@@ -8,39 +8,19 @@ Want to know more about KeyGen or its creator? [Go to the "About" section](#abou
 [Download the latest release](https://github.com/matiboux/KeyGen-Lib/releases/latest), extract the "KeyGen-Lib/" folder in your working directory and include the **KeyGen-Lib/KeyGen-Core.php** file in your PHP script, and start using it.  
 You can also use the **api.php** file as a working example.
 
-### Using Oli
+### How to use it?
+
+You'll find help about that in [the wiki](https://github.com/matiboux/KeyGen-Lib/wiki) of this repository on Github.
+One page is about [how to use the library tools](https://github.com/matiboux/KeyGen-Lib/wiki/Documentation), and another page can help you understand [the possible errors](https://github.com/matiboux/KeyGen-Lib/wiki/Errors) you may encounter.
+
+### Using Oli Framework
 
 To use this library with [Oli](https://github.com/matiboux/Oli), add the "KeyGen-Lib/" folder directly into the framework **addons/** folder. The library will be automatically included to the website by the framework. You can start using it directly.
 
-## Using the API
+## About the API
 
-The API get its parameters from GET or POST methods, and return a JSON response.
-The input parameters are:
- - "numeric" or "num" (boolean) (default: true) / If true, the keygen could can contain numeric characters.
- - "lowercase" or "low" (boolean) (default: true) / If true, the keygen could can contain lowercase characters.
- - "uppercase" or "upp" (boolean) (default: true) / If true, the keygen could can contain uppercase characters.
- - "special" or "spe" (boolean) (default: false) / If true, the keygen could can contain special characters.
- - "length" or "len" (boolean) (default: 12) / Define the keygen length.
- - "redundancy" or "red" (boolean) (default: true) / If true, characters can appear multiple times in the keygen.
-
-The JSON response contains:
- - "error": Indicate if there is an error. If true, "error-infos" will give context about the error.
- - "response": Contains the generated keygen (if nothing went wrong).
- - "parameters": A reminder of the parameters used when generating the keygen.
- - "default-parameters": If true, indicates the parameters were not changed by the user.
- - "forced-redundancy": If true, redundancy was set to false, but was forced to true in order to generate a keygen with the specified length.
-
-### Example
-
-- api.php  
-  `{"error": false, "response": "2Bo9PGEU69RV", "parameters": {"length": 12, "numeric": true, "lowercase": true, "uppercase": true, "special": false, "redundancy": true}, "default-parameters": true, "forced-redundancy": false, ...}`
-  
-- api.php?len=30  
-  `{"error": false, "response": "NVWZvarzYia7KETGyHHNYxA7kmLhi9", "parameters": {"length": "30", "numeric": true, "lowercase": true, "uppercase": true, "special": false, "redundancy": true}, "default-parameters": false, "forced-redundancy": false, ...}`
-  
-- api.php?num=1&low=0&upp=0&spe=0&len=10&red=0  
-  `{"error": false, "response": "0147852963", "parameters": {"length": "10", "numeric": "1", "lowercase": "0", "uppercase": "0", "special": "0", "redundancy": "0"}, "default-parameters": false, "forced-redundancy": false, ...}`  
-  /!\ **Note**: This **does not** work as a random number generator. It's a random sequence of numerical characters.
+The API is provided an open-source working example.
+To learn more, [visit its wiki page](https://github.com/matiboux/KeyGen-Lib/wiki/API-Usage).
 
 ---
 
