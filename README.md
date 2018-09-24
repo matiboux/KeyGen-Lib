@@ -1,4 +1,4 @@
-﻿# KeyGen Lib – v1.1.0
+# KeyGen Lib – v1.1.0
 
 **KeyGen Library** is an *open source PHP library for random password generation*.  
 Want to know more about KeyGen or its creator? [Go to the "About" section](#about)!
@@ -16,12 +16,12 @@ To use this library with [Oli](https://github.com/matiboux/Oli), add the "KeyGen
 
 The API get its parameters from GET or POST methods, and return a JSON response.
 The input parameters are:
- - "numeric" or "num" (boolean) (default: true) / If true, the keygen could can contain numeric characters?
- - "lowercase" or "low" (boolean) (default: true) / If true, the keygen could can contain lowercase characters?
- - "uppercase" or "upp" (boolean) (default: true) / If true, the keygen could can contain uppercase characters?
+ - "numeric" or "num" (boolean) (default: true) / If true, the keygen could can contain numeric characters.
+ - "lowercase" or "low" (boolean) (default: true) / If true, the keygen could can contain lowercase characters.
+ - "uppercase" or "upp" (boolean) (default: true) / If true, the keygen could can contain uppercase characters.
  - "special" or "spe" (boolean) (default: false) / If true, the keygen could can contain special characters.
  - "length" or "len" (boolean) (default: 12) / Define the keygen length.
- - "redundancy" or "red" (boolean) (default: true) / If true, characters can appear multiple times in the keygen?
+ - "redundancy" or "red" (boolean) (default: true) / If true, characters can appear multiple times in the keygen.
 
 The JSON response contains:
  - "error": Indicate if there is an error. If true, "error-infos" will give context about the error.
