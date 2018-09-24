@@ -25,7 +25,7 @@ To learn more, [visit its wiki page](https://github.com/matiboux/KeyGen-Lib/wiki
 
 ---
 
-## License – MIT
+## MIT License
 
 Copyright (c) 2017 Matiboux (Mathieu Guérin)  
 *You'll find a copy of the MIT license in the **LICENSE** file.*
@@ -33,7 +33,7 @@ Copyright (c) 2017 Matiboux (Mathieu Guérin)
 ## About
 
 **KeyGen** is an *open source random password generator* service, also created by Matiboux.  
-Since its beginning, the project consisted in providing a password generation service on a website. The initial source code was then open sourced, and an API was created and is publicly available to evfor developers.
+Since its beginning, the project consisted in providing a password generation service on a website. The initial source code was then open sourced, and an API was created and is publicly available to everyone.
 
 [**Oli**](https://github.com/matiboux/Oli) is an *open source PHP framework*, also created by Matiboux.
 
