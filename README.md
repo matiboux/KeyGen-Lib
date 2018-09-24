@@ -6,7 +6,7 @@ Want to know more about KeyGen or its creator? [Go to the "About" section](#abou
 ## Get Started
 
 [Download the latest release](https://github.com/matiboux/KeyGen-Lib/releases/latest), extract the "KeyGen-Lib/" folder in your working directory and include the **KeyGen-Lib/KeyGen-Core.php** file in your PHP script, and start using it.  
-You can also use the **api.php** file as a working example.
+You can also use the **api.php** file as a working example and learn from it.
 
 ### How to use it?
 
@@ -15,7 +15,8 @@ One page is about [how to use the library tools](https://github.com/matiboux/Key
 
 ### Using Oli Framework
 
-To use this library with [Oli](https://github.com/matiboux/Oli), add the "KeyGen-Lib/" folder directly into the framework **addons/** folder. The library will be automatically included to the website by the framework. You can start using it directly.
+To use this library with [Oli](https://github.com/matiboux/Oli), add the "KeyGen-Lib/" folder directly into the framework **addons/** folder. The library will be automatically included to the website by the framework.  
+Then, you can start using the library like you would have without the framework.
 
 ## About the API
 
