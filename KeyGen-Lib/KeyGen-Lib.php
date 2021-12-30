@@ -81,12 +81,12 @@ class KeyGen
 		?bool $special = null,
 		?bool $redundancy = null
 	): void {
-		self::$length = isset($length) ? $length : self::$defaultLength;
-		self::$numeric = isset($numeric) ? $numeric : self::$defaultNumeric;
-		self::$lowercase = isset($lowercase) ? $lowercase : self::$defaultLowercase;
-		self::$uppercase = isset($uppercase) ? $uppercase : self::$defaultUppercase;
-		self::$special = isset($special) ? $special : self::$defaultSpecial;
-		self::$redundancy = isset($redundancy) ? $redundancy : self::$defaultRedundancy;
+		self::$length = $length ?? self::$defaultLength;
+		self::$numeric = $numeric ?? self::$defaultNumeric;
+		self::$lowercase = $lowercase ?? self::$defaultLowercase;
+		self::$uppercase = $uppercase ?? self::$defaultUppercase;
+		self::$special = $special ?? self::$defaultSpecial;
+		self::$redundancy = $redundancy ?? self::$defaultRedundancy;
 
 		if (self::getParams() == self::getDefaultParams()) {
 			self::$defaultParameters = true;
@@ -167,12 +167,12 @@ class KeyGen
 	public static function getParams(): array
 	{
 		return [
-			'length' => isset(self::$length) ? self::$length : self::$defaultLength,
-			'numeric' => isset(self::$numeric) ? self::$numeric : self::$defaultNumeric,
-			'lowercase' => isset(self::$lowercase) ? self::$lowercase : self::$defaultLowercase,
-			'uppercase' => isset(self::$uppercase) ? self::$uppercase : self::$defaultUppercase,
-			'special' => isset(self::$special) ? self::$special : self::$defaultSpecial,
-			'redundancy' => isset(self::$redundancy) ? self::$redundancy : self::$defaultRedundancy,
+			'length' => self::$length ?? self::$defaultLength,
+			'numeric' => self::$numeric ?? self::$defaultNumeric,
+			'lowercase' => self::$lowercase ?? self::$defaultLowercase,
+			'uppercase' => self::$uppercase ?? self::$defaultUppercase,
+			'special' => self::$special ?? self::$defaultSpecial,
+			'redundancy' => self::$redundancy ?? self::$defaultRedundancy,
 		];
 	}
 
