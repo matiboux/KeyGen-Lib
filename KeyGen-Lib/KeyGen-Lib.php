@@ -2,7 +2,7 @@
 /*\
 |*|  ----------------------------
 |*|  --- [  KeyGen Library  ] ---
-|*|  --- [  Version 1.0.0   ] ---
+|*|  --- [  Version 1.1.0   ] ---
 |*|  ----------------------------
 |*|  
 |*|  KeyGen Library is an open source random password generator PHP library.
@@ -26,9 +26,9 @@
 |*|  --- --- ---
 |*|  
 |*|  Releases date:
-|*|  - VERSION 1:
-|*|    * v1.0.0: April 15, 2017
-|*|       1.0.1: [WIP]
+|*|  - v1.0.0: April 15, 2017
+|*|  - v1.0.1: April 17, 2017
+|*|  - v1.1.0: Sept. 24, 2018
 \*/
 
 namespace KeyGenLib {
