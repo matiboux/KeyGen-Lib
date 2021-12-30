@@ -242,25 +242,25 @@ class KeyGen
 			$this->setError('ERR_EMPTY_CHARACTERS_SET');
 		}
 
-		if (!$this->isError()) {
-			if ($this->length > strlen($charactersSet) && !$this->redundancy) {
-				$this->forcedRedundancy = true;
-			} else {
-				$this->forcedRedundancy = false;
-			}
-
-			$keygen = '';
-			while (strlen($keygen) < $this->length) {
-				$randomCharacter = substr($charactersSet, mt_rand(0, strlen($charactersSet) - 1), 1);
-				if ($this->redundancy || $this->forcedRedundancy || !strstr($keygen, $randomCharacter)) {
-					$keygen .= $randomCharacter;
-				}
-			}
-
-			return $keygen;
-		} else {
+		if ($this->isError()) {
 			return null;
 		}
+
+		if ($this->length > strlen($charactersSet) && !$this->redundancy) {
+			$this->forcedRedundancy = true;
+		} else {
+			$this->forcedRedundancy = false;
+		}
+
+		$keygen = '';
+		while (strlen($keygen) < $this->length) {
+			$randomCharacter = substr($charactersSet, mt_rand(0, strlen($charactersSet) - 1), 1);
+			if ($this->redundancy || $this->forcedRedundancy || !strstr($keygen, $randomCharacter)) {
+				$keygen .= $randomCharacter;
+			}
+		}
+
+		return $keygen;
 	}
 
 	public function isForcedRedundancy(): bool
