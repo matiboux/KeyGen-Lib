@@ -2,7 +2,7 @@
 /**
  *  KeyGen Lib API
  *  An open source PHP library for random password generation.
- *  
+ *
  *  Licensed under the MIT License
  *  Copyright (c) 2017 Matiboux (Mathieu Guérin)
  *
@@ -66,11 +66,11 @@ if($_['mode'] == 'keygen' OR $_['mode'] == 'cd-key') {
 
 	$result['mode'] = $_['mode'];
 	$result['return'] = urlencode(KeyGen::keygen($length, $numeric, $lowercase, $uppercase, $special, $redundancy));
-	
+
 	$result['poweredBy'] = 'KeyGen Lib';
 	$result['parameters'] = KeyGen::getParams();
 	$result['isForcedRedundancy'] = KeyGen::isForcedRedundancy();
-	
+
 	else if($_['mode'] == 'cd-key') {
 		if(empty($length)) $length = $result['parameters']['length'];
 		if(empty($blocks)) {
@@ -78,7 +78,7 @@ if($_['mode'] == 'keygen' OR $_['mode'] == 'cd-key') {
 			$result['errorInfos'] = 'Number of blocks cannot be null.';
 		} else {
 			if($blocks > $length) $blocks = $length;
-			
+
 			$newKeyGen = '';
 			foreach(str_split($result['return'], round($length / $blocks)) as $eachPart) {
 				$newKeyGen .= $eachPart . '-';
@@ -92,7 +92,7 @@ if($_['mode'] == 'keygen' OR $_['mode'] == 'cd-key') {
 } else if($_['mode'] == 'random') {
 	$minimum = isset($_['minimum']) ? $_['minimum'] : (isset($_['min']) ? $_['min'] : null);
 	$maximum = isset($_['maximum']) ? $_['maximum'] : (isset($_['max']) ? $_['max'] : null);
-	
+
 	if(!is_numeric($minimum)) {
 		$result['isError'] = true;
 		$result['errorInfos'] = 'Minimum value has to be a number.';
@@ -104,7 +104,7 @@ if($_['mode'] == 'keygen' OR $_['mode'] == 'cd-key') {
 			$minimum = [$maximum, $maximum = $minimum][0];
 			$result['isInverted'] = true;
 		}
-		
+
 		$result['isError'] = false;
 		$result['return'] = mt_rand($minimum, $maximum);
 	}
