@@ -78,7 +78,7 @@ class KeyGen
 		?bool $lowercase = null,
 		?bool $uppercase = null,
 		?bool $special = null,
-	): string {
+	): int {
 		$flags = self::$flags ?? self::DEFAULT_FLAGS;
 
 		if ($numeric !== null) {
