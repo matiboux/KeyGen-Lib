@@ -54,100 +54,106 @@ class KeyGen
 	private const DEFAULT_FLAGS = self::NUMERIC | self::LOWERCASE | self::UPPERCASE;
 	private const DEFAULT_REDUNDANCY = true;
 
-	/** Parameters */
-	private static ?int $length = null;
-	private static ?int $flags = null;
-	private static ?bool $redundancy = null;
+	// Parameters
+	private int $length = self::DEFAULT_LENGTH;
+	private int $flags = self::DEFAULT_FLAGS;
+	private bool $redundancy = self::DEFAULT_REDUNDANCY;
 
-	/** Indicators */
-	private static bool $defaultParameters = true;
-	private static bool $forcedRedundancy = false;
+	// Indicators
+	private bool $defaultParameters = true;
+	private bool $forcedRedundancy = false;
 
 	/**
 	 * Error.
 	 *
 	 * @var mixed[]|null
 	 */
-	private static ?array $lastError = null;
+	private ?array $lastError = null;
 
 	/** ----------------------- */
 	/**  Parameters Management  */
 	/** ----------------------- */
-	public static function getFlags(
+
+	public function getFlags(): int
+	{
+		return $this->flags;
+	}
+
+	public function applyFlags(
 		?bool $numeric = null,
 		?bool $lowercase = null,
 		?bool $uppercase = null,
 		?bool $special = null,
 	): int {
-		$flags = self::$flags ?? self::DEFAULT_FLAGS;
+		$flags = $this->flags;
 
 		if ($numeric !== null) {
-			$flags = $numeric ? ($flags | self::NUMERIC) : ($flags & ~self::NUMERIC);
+			$flags = $numeric ? ($flags | $this->NUMERIC) : ($flags & ~$this->NUMERIC);
 		}
 		if ($lowercase !== null) {
-			$flags = $lowercase ? ($flags | self::LOWERCASE) : ($flags & ~self::LOWERCASE);
+			$flags = $lowercase ? ($flags | $this->LOWERCASE) : ($flags & ~$this->LOWERCASE);
 		}
 		if ($uppercase !== null) {
-			$flags = $uppercase ? ($flags | self::UPPERCASE) : ($flags & ~self::UPPERCASE);
+			$flags = $uppercase ? ($flags | $this->UPPERCASE) : ($flags & ~$this->UPPERCASE);
 		}
 		if ($special !== null) {
-			$flags = $special ? ($flags | self::SPECIAL) : ($flags & ~self::SPECIAL);
+			$flags = $special ? ($flags | $this->SPECIAL) : ($flags & ~$this->SPECIAL);
 		}
 
 		return $flags;
 	}
 
-	public static function setParams(
+	public function setParams(
 		?int $length = null,
 		?bool $numeric = null,
 		?bool $lowercase = null,
 		?bool $uppercase = null,
 		?bool $special = null,
-		?bool $redundancy = null
+		?bool $redundancy = null,
 	): void {
-		self::$length = $length ?? self::DEFAULT_LENGTH;
-		self::$flags = self::getFlags($numeric, $lowercase, $uppercase, $special);
-		self::$redundancy = $redundancy ?? self::DEFAULT_REDUNDANCY;
+		$this->length = $length ?? self::DEFAULT_LENGTH;
+		$this->flags = $this->getFlags($numeric, $lowercase, $uppercase, $special);
+		$this->redundancy = $redundancy ?? self::DEFAULT_REDUNDANCY;
 
-		if (self::getParams() == self::getDefaultParams()) {
-			self::$defaultParameters = true;
+		if ($this->getParams() == $this->getDefaultParams()) {
+			$this->defaultParameters = true;
 		} else {
-			self::$defaultParameters = false;
+			$this->defaultParameters = false;
 		}
 	}
 
-	public static function updateParams(
+	public function updateParams(
 		?int $length = null,
 		?bool $numeric = null,
 		?bool $lowercase = null,
 		?bool $uppercase = null,
 		?bool $special = null,
-		?bool $redundancy = null
+		?bool $redundancy = null,
 	): void {
 		if (isset($length)) {
-			self::$length = $length;
-		} elseif (!isset(self::$length)) {
-			self::$length = self::DEFAULT_LENGTH;
+			$this->length = $length;
+		} elseif (!isset($this->length)) {
+			$this->length = self::DEFAULT_LENGTH;
 		}
 
-		self::$flags = self::getFlags($numeric, $lowercase, $uppercase, $special);
+		$this->flags = $this->getFlags($numeric, $lowercase, $uppercase, $special);
 
 		if (isset($redundancy)) {
-			self::$redundancy = $redundancy;
-		} elseif (!isset(self::$redundancy)) {
-			self::$redundancy = self::DEFAULT_REDUNDANCY;
+			$this->redundancy = $redundancy;
+		} elseif (!isset($this->redundancy)) {
+			$this->redundancy = self::DEFAULT_REDUNDANCY;
 		}
 
-		if (self::getParams() == self::getDefaultParams()) {
-			self::$defaultParameters = true;
+		if ($this->getParams() == $this->getDefaultParams()) {
+			$this->defaultParameters = true;
 		} else {
-			self::$defaultParameters = false;
+			$this->defaultParameters = false;
 		}
 	}
 
-	public static function resetParams(): void
+	public function resetParams(): void
 	{
-		self::setParams();
+		$this->setParams();
 	}
 
 	/**
@@ -168,23 +174,21 @@ class KeyGen
 	/**
 	 * @return mixed[]
 	 */
-	public static function getParams(): array
+	public function getParams(): array
 	{
-		$flags = self::$flags ?? self::DEFAULT_FLAGS;
-
 		return [
-			'length' => self::$length ?? self::DEFAULT_LENGTH,
-			'numeric' => ($flags & self::NUMERIC) === self::NUMERIC,
-			'lowercase' => ($flags & self::LOWERCASE) === self::LOWERCASE,
-			'uppercase' => ($flags & self::UPPERCASE) === self::UPPERCASE,
-			'special' => ($flags & self::SPECIAL) === self::SPECIAL,
-			'redundancy' => self::$redundancy ?? self::DEFAULT_REDUNDANCY,
+			'length' => $this->length,
+			'numeric' => ($this->flags & self::NUMERIC) === self::NUMERIC,
+			'lowercase' => ($this->flags & self::LOWERCASE) === self::LOWERCASE,
+			'uppercase' => ($this->flags & self::UPPERCASE) === self::UPPERCASE,
+			'special' => ($this->flags & self::SPECIAL) === self::SPECIAL,
+			'redundancy' => $this->redundancy,
 		];
 	}
 
-	public static function isDefaultParameters(): bool
+	public function isDefaultParameters(): bool
 	{
-		return self::$defaultParameters;
+		return $this->defaultParameters;
 	}
 
 	/** ---------------------- */
@@ -192,7 +196,7 @@ class KeyGen
 	/** ---------------------- */
 
 	/** Keygen Generator */
-	public static function keygen(
+	public function keygen(
 		?int $length = null,
 		?bool $numeric = null,
 		?bool $lowercase = null,
@@ -200,44 +204,44 @@ class KeyGen
 		?bool $special = null,
 		?bool $redundancy = null
 	): ?string {
-		self::clearError();
-		self::updateParams($length, $numeric, $lowercase, $uppercase, $special, $redundancy);
+		$this->clearError();
+		$this->updateParams($length, $numeric, $lowercase, $uppercase, $special, $redundancy);
 
 		$charactersSet = '';
-		if ((self::$flags & self::NUMERIC) === self::NUMERIC) {
+		if (($this->flags & self::NUMERIC) === self::NUMERIC) {
 			$charactersSet .= self::NUMERIC_SET;
 		}
-		if ((self::$flags & self::LOWERCASE) === self::LOWERCASE) {
+		if (($this->flags & self::LOWERCASE) === self::LOWERCASE) {
 			$charactersSet .= self::LOWERCASE_SET;
 		}
-		if ((self::$flags & self::UPPERCASE) === self::UPPERCASE) {
+		if (($this->flags & self::UPPERCASE) === self::UPPERCASE) {
 			$charactersSet .= self::UPPERCASE_SET;
 		}
-		if ((self::$flags & self::SPECIAL) === self::SPECIAL) {
+		if (($this->flags & self::SPECIAL) === self::SPECIAL) {
 			$charactersSet .= self::SPECIAL_SET;
 		}
 
-		if (empty(self::$length)) {
-			self::setError('ERR_EMPTY_LENGTH');
-		} elseif (self::$length < 0) {
-			self::setError('ERR_NEGATIVE_LENGTH');
-		} elseif (!is_numeric(self::$length)) {
-			self::setError('ERR_LENGTH_NOT_NUMERIC');
+		if (empty($this->length)) {
+			$this->setError('ERR_EMPTY_LENGTH');
+		} elseif ($this->length < 0) {
+			$this->setError('ERR_NEGATIVE_LENGTH');
+		} elseif (!is_numeric($this->length)) {
+			$this->setError('ERR_LENGTH_NOT_NUMERIC');
 		} elseif (empty($charactersSet)) {
-			self::setError('ERR_EMPTY_CHARACTERS_SET');
+			$this->setError('ERR_EMPTY_CHARACTERS_SET');
 		}
 
-		if (!self::isError()) {
-			if (self::$length > strlen($charactersSet) && !self::$redundancy) {
-				self::$forcedRedundancy = true;
+		if (!$this->isError()) {
+			if ($this->length > strlen($charactersSet) && !$this->redundancy) {
+				$this->forcedRedundancy = true;
 			} else {
-				self::$forcedRedundancy = false;
+				$this->forcedRedundancy = false;
 			}
 
 			$keygen = '';
-			while (strlen($keygen) < self::$length) {
+			while (strlen($keygen) < $this->length) {
 				$randomCharacter = substr($charactersSet, mt_rand(0, strlen($charactersSet) - 1), 1);
-				if (self::$redundancy || self::$forcedRedundancy || !strstr($keygen, $randomCharacter)) {
+				if ($this->redundancy || $this->forcedRedundancy || !strstr($keygen, $randomCharacter)) {
 					$keygen .= $randomCharacter;
 				}
 			}
@@ -248,9 +252,9 @@ class KeyGen
 		}
 	}
 
-	public static function isForcedRedundancy(): bool
+	public function isForcedRedundancy(): bool
 	{
-		return self::$forcedRedundancy;
+		return $this->forcedRedundancy;
 	}
 
 	/** ------------------ */
@@ -258,31 +262,31 @@ class KeyGen
 	/** ------------------ */
 
 	/** Set Error */
-	private static function setError(int|string $id): void
+	private function setError(int|string $id): void
 	{
 		if (array_search($id, $errorInfos = ['id' => 2, 'code' => 'ERR_EMPTY_LENGTH', 'message' => 'The keygen length parameter cannot be empty.'])) {
-			self::$lastError = $errorInfos;
+			$this->lastError = $errorInfos;
 		} elseif (array_search($id, $errorInfos = ['id' => 3, 'code' => 'ERR_NEGATIVE_LENGTH', 'message' => 'The keygen length parameter cannot be negative.'])) {
-			self::$lastError = $errorInfos;
+			$this->lastError = $errorInfos;
 		} elseif (array_search($id, $errorInfos = ['id' => 4, 'code' => 'ERR_LENGTH_NULL', 'message' => 'The keygen length parameter cannot be null.'])) {
-			self::$lastError = $errorInfos;
+			$this->lastError = $errorInfos;
 		} elseif (array_search($id, $errorInfos = ['id' => 5, 'code' => 'ERR_EMPTY_CHARACTERS_SET', 'message' => 'The character set cannot be empty.'])) {
-			self::$lastError = $errorInfos;
+			$this->lastError = $errorInfos;
 		} elseif (array_search($id, $errorInfos = ['id' => 6, 'code' => 'ERR_LENGTH_NOT_NUMERIC', 'message' => 'The keygen length parameter must be numeric.'])) {
-			self::$lastError = $errorInfos;
+			$this->lastError = $errorInfos;
 		} else {
-			self::$lastError = ['id' => 1, 'code' => 'ERR_UNKNOWN', 'message' => 'An unknown error occurred.'];
+			$this->lastError = ['id' => 1, 'code' => 'ERR_UNKNOWN', 'message' => 'An unknown error occurred.'];
 		}
 	}
 
-	private static function clearError(): void
+	private function clearError(): void
 	{
-		self::$lastError = null;
+		$this->lastError = null;
 	}
 
-	public static function isError(): bool
+	public function isError(): bool
 	{
-		return null !== self::$lastError;
+		return null !== $this->lastError;
 	}
 
 	/**
@@ -290,23 +294,23 @@ class KeyGen
 	 *
 	 * @return mixed[]|null
 	 */
-	public static function getErrorInfos(): array|null
+	public function getErrorInfos(): array|null
 	{
-		return self::$lastError ?? null;
+		return $this->lastError ?? null;
 	}
 
-	public static function getErrorId(): int
+	public function getErrorId(): int
 	{
-		return null !== self::$lastError ? self::$lastError['id'] : 0;
+		return null !== $this->lastError ? $this->lastError['id'] : 0;
 	}
 
-	public static function getErrorCode(): ?string
+	public function getErrorCode(): ?string
 	{
-		return null !== self::$lastError ? self::$lastError['code'] : null;
+		return null !== $this->lastError ? $this->lastError['code'] : null;
 	}
 
-	public static function getErrorMessage(): ?string
+	public function getErrorMessage(): ?string
 	{
-		return null !== self::$lastError ? self::$lastError['message'] : null;
+		return null !== $this->lastError ? $this->lastError['message'] : null;
 	}
 }
