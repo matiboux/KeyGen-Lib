@@ -103,6 +103,29 @@ class KeyGen
 		return $flags;
 	}
 
+	public function getCharactersSet(?int $flags = null): string
+	{
+		if ($flags === null) {
+			$flags = $this->flags;
+		}
+
+		$set = '';
+		if (($flags & self::NUMERIC) === self::NUMERIC) {
+			$set .= self::NUMERIC_SET;
+		}
+		if (($flags & self::LOWERCASE) === self::LOWERCASE) {
+			$set .= self::LOWERCASE_SET;
+		}
+		if (($flags & self::UPPERCASE) === self::UPPERCASE) {
+			$set .= self::UPPERCASE_SET;
+		}
+		if (($flags & self::SPECIAL) === self::SPECIAL) {
+			$set .= self::SPECIAL_SET;
+		}
+
+		return $set;
+	}
+
 	public function setParams(
 		?int $length = null,
 		?bool $numeric = null,
@@ -207,19 +230,7 @@ class KeyGen
 		$this->clearError();
 		$this->updateParams($length, $numeric, $lowercase, $uppercase, $special, $redundancy);
 
-		$charactersSet = '';
-		if (($this->flags & self::NUMERIC) === self::NUMERIC) {
-			$charactersSet .= self::NUMERIC_SET;
-		}
-		if (($this->flags & self::LOWERCASE) === self::LOWERCASE) {
-			$charactersSet .= self::LOWERCASE_SET;
-		}
-		if (($this->flags & self::UPPERCASE) === self::UPPERCASE) {
-			$charactersSet .= self::UPPERCASE_SET;
-		}
-		if (($this->flags & self::SPECIAL) === self::SPECIAL) {
-			$charactersSet .= self::SPECIAL_SET;
-		}
+		$charactersSet = $this->getCharactersSet();
 
 		if (empty($this->length)) {
 			$this->setError('ERR_EMPTY_LENGTH');
