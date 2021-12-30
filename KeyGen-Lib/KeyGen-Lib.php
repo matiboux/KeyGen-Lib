@@ -49,10 +49,10 @@ class KeyGen
 	public const UPPERCASE = 0b0100;
 	public const SPECIAL   = 0b1000;
 
-	/** Default Values */
-	private static int $defaultLength = 12;
-	private static int $defaultFlags = self::NUMERIC | self::LOWERCASE | self::UPPERCASE;
-	private static bool $defaultRedundancy = true;
+	// Default Values
+	private const DEFAULT_LENGTH = 12;
+	private const DEFAULT_FLAGS = self::NUMERIC | self::LOWERCASE | self::UPPERCASE;
+	private const DEFAULT_REDUNDANCY = true;
 
 	/** Parameters */
 	private static ?int $length = null;
@@ -79,7 +79,7 @@ class KeyGen
 		?bool $uppercase = null,
 		?bool $special = null,
 	): string {
-		$flags = self::$flags ?? self::$defaultFlags;
+		$flags = self::$flags ?? self::DEFAULT_FLAGS;
 
 		if ($numeric !== null) {
 			$flags = $numeric ? ($flags | self::NUMERIC) : ($flags & ~self::NUMERIC);
@@ -105,9 +105,9 @@ class KeyGen
 		?bool $special = null,
 		?bool $redundancy = null
 	): void {
-		self::$length = $length ?? self::$defaultLength;
+		self::$length = $length ?? self::DEFAULT_LENGTH;
 		self::$flags = self::getFlags($numeric, $lowercase, $uppercase, $special);
-		self::$redundancy = $redundancy ?? self::$defaultRedundancy;
+		self::$redundancy = $redundancy ?? self::DEFAULT_REDUNDANCY;
 
 		if (self::getParams() == self::getDefaultParams()) {
 			self::$defaultParameters = true;
@@ -127,7 +127,7 @@ class KeyGen
 		if (isset($length)) {
 			self::$length = $length;
 		} elseif (!isset(self::$length)) {
-			self::$length = self::$defaultLength;
+			self::$length = self::DEFAULT_LENGTH;
 		}
 
 		self::$flags = self::getFlags($numeric, $lowercase, $uppercase, $special);
@@ -135,7 +135,7 @@ class KeyGen
 		if (isset($redundancy)) {
 			self::$redundancy = $redundancy;
 		} elseif (!isset(self::$redundancy)) {
-			self::$redundancy = self::$defaultRedundancy;
+			self::$redundancy = self::DEFAULT_REDUNDANCY;
 		}
 
 		if (self::getParams() == self::getDefaultParams()) {
@@ -156,12 +156,12 @@ class KeyGen
 	public static function getDefaultParams(): array
 	{
 		return [
-			'length' => self::$defaultLength,
-			'numeric' => (self::$defaultFlags & self::NUMERIC) === self::NUMERIC,
-			'lowercase' => (self::$defaultFlags & self::LOWERCASE) === self::LOWERCASE,
-			'uppercase' => (self::$defaultFlags & self::UPPERCASE) === self::UPPERCASE,
-			'special' => (self::$defaultFlags & self::SPECIAL) === self::SPECIAL,
-			'redundancy' => self::$defaultRedundancy,
+			'length' => self::DEFAULT_LENGTH,
+			'numeric' => (self::DEFAULT_FLAGS & self::NUMERIC) === self::NUMERIC,
+			'lowercase' => (self::DEFAULT_FLAGS & self::LOWERCASE) === self::LOWERCASE,
+			'uppercase' => (self::DEFAULT_FLAGS & self::UPPERCASE) === self::UPPERCASE,
+			'special' => (self::DEFAULT_FLAGS & self::SPECIAL) === self::SPECIAL,
+			'redundancy' => self::DEFAULT_REDUNDANCY,
 		];
 	}
 
@@ -170,15 +170,15 @@ class KeyGen
 	 */
 	public static function getParams(): array
 	{
-		$flags = self::$flags ?? self::$defaultFlags;
+		$flags = self::$flags ?? self::DEFAULT_FLAGS;
 
 		return [
-			'length' => self::$length ?? self::$defaultLength,
+			'length' => self::$length ?? self::DEFAULT_LENGTH,
 			'numeric' => ($flags & self::NUMERIC) === self::NUMERIC,
 			'lowercase' => ($flags & self::LOWERCASE) === self::LOWERCASE,
 			'uppercase' => ($flags & self::UPPERCASE) === self::UPPERCASE,
 			'special' => ($flags & self::SPECIAL) === self::SPECIAL,
-			'redundancy' => self::$redundancy ?? self::$defaultRedundancy,
+			'redundancy' => self::$redundancy ?? self::DEFAULT_REDUNDANCY,
 		];
 	}
 
