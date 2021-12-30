@@ -1,37 +1,36 @@
 <?php
-/*\
-|*|  ----------------------------
-|*|  --- [  KeyGen Library  ] ---
-|*|  --- [  Version 1.1.0   ] ---
-|*|  ----------------------------
-|*|
-|*|  KeyGen Library is an open source random password generator PHP library.
-|*|  This project is directly related to matiboux's KeyGen project.
-|*|
-|*|  KeyGen Library Github repository: https://github.com/matiboux/KeyGen-Lib
-|*|
-|*|  Creator & Developer: Matiboux (Mathieu Guérin)
-|*|    → Github: https://github.com/matiboux
-|*|    → Email: matiboux@gmail.com
-|*|
-|*|  For more info, please read the README.md file.
-|*|  You can find it in the project repository (Github link above).
-|*|
-|*|  --- --- ---
-|*|
-|*|  MIT License
-|*|  Copyright (C) 2017 Matiboux (Mathieu Guérin)
-|*|  You'll find a copy of the MIT license in the LICENSE file.
-|*|
-|*|  --- --- ---
-|*|
-|*|  Releases date:
-|*|  - v1.0.0: April 15, 2017
-|*|  - v1.0.1: April 17, 2017
-|*|  - v1.1.0: Sept. 24, 2018
-\*/
 
-namespace KeyGenLib {
+/**
+ * This file is part of KeyGen Library.
+ *
+ * KeyGen Library is an open source random password generator PHP library.
+ * This project is directly related to matiboux's KeyGen project.
+ *
+ * KeyGen Library Github repository: https://github.com/matiboux/KeyGen-Lib
+ *
+ * Creator & Developer: Matiboux (Mathieu Guérin)
+ *   → Github: https://github.com/matiboux
+ *   → Email: matiboux@gmail.com
+ *
+ * MIT License
+ * Copyright (C) 2017 Matiboux (Mathieu Guérin)
+ * You'll find a copy of the MIT license in the LICENSE file.
+ *
+ * @author Matiboux <matiboux@gmail.com>
+ *
+ * @copyright 2017 Matiboux (Mathieu Guérin)
+ * @license https://opensource.org/licenses/MIT
+ *
+ * @version 1.2.0
+ *
+ * Releases date:
+ * - v1.0.0: April 15, 2017
+ * - v1.0.1: April 17, 2017
+ * - v1.1.0: Sept. 24, 2018
+ * - v1.2.0: WIP
+ */
+
+namespace KeyGenLib;
 
 class KeyGen {
 
@@ -182,6 +181,3 @@ class KeyGen {
 	public static function getErrorMessage() { return self::isError() ? self::$lastError['message'] : false; }
 
 }
-
-}
-?>
