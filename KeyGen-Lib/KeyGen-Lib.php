@@ -37,11 +37,11 @@ namespace KeyGenLib;
  */
 class KeyGen
 {
-	/** Character Sets */
+	// Characters sets
 	public const NUMERIC = '1234567890';
 	public const LOWERCASE = 'abcdefghijklmnopqrstuvwxyz';
 	public const UPPERCASE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-	public const SPECIAL = '!#$%&\()+-;?@[]^_{|}';
+	public const SPECIAL = '!@#$%^&*()_+-=[]{}|;\':",./<>?';
 
 	/** Default Values */
 	private static int $defaultLength = 12;
