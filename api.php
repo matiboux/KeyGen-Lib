@@ -18,7 +18,7 @@ header('Access-Control-Allow-Origin: *');
 /** ------ */
 
 require 'KeyGen-Lib/KeyGen-Lib.php';
-use \KeyGenLib\KeyGen;
+use \KeyGenLib\KeyGenStatic as KeyGen;
 
 $_ = array_merge($_GET, $_POST);
 $result = [];
