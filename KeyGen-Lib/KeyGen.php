@@ -82,7 +82,7 @@ class KeyGen
 	private bool $forcedRedundancy = false;
 
 	/**
-	 * Error.
+	 * Last error
 	 *
 	 * @var mixed[]|null
 	 */
@@ -338,16 +338,14 @@ class KeyGen
 			return null;
 		}
 
-		if ($this->length > strlen($charactersSet) && !$this->redundancy) {
-			$this->forcedRedundancy = true;
-		} else {
-			$this->forcedRedundancy = false;
-		}
+		$this->forcedRedundancy = $this->length > strlen($charactersSet) && !$this->redundancy;
 
 		$keygen = '';
-		while (strlen($keygen) < $this->length) {
+		while (strlen($keygen) < $this->length)
+		{
 			$randomCharacter = substr($charactersSet, mt_rand(0, strlen($charactersSet) - 1), 1);
-			if ($this->redundancy || $this->forcedRedundancy || !strstr($keygen, $randomCharacter)) {
+			if ($this->redundancy || $this->forcedRedundancy || !strstr($keygen, $randomCharacter))
+			{
 				$keygen .= $randomCharacter;
 			}
 		}
