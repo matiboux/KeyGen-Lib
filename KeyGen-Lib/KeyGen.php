@@ -172,7 +172,8 @@ class KeyGen
 		?bool $lowercase = null,
 		?bool $uppercase = null,
 		?bool $special = null,
-	): int {
+	): int
+	{
 		$flags = 0;
 		if ($numeric) {
 			$flags |= self::NUMERIC;
@@ -195,7 +196,8 @@ class KeyGen
 		?bool $lowercase = null,
 		?bool $uppercase = null,
 		?bool $special = null,
-	): int {
+	): int
+	{
 		$flags = $this->flags;
 		if ($numeric !== null) {
 			$flags = $numeric ? ($flags | $this->NUMERIC) : ($flags & ~$this->NUMERIC);
@@ -244,7 +246,8 @@ class KeyGen
 		?bool $special = null,
 		?bool $redundancy = null,
 		bool $resetConfig = true,
-	): void {
+	): void
+	{
 		$this->setLength($length, $resetConfig);
 
 		$this->setFlags(
@@ -314,7 +317,8 @@ class KeyGen
 		?bool $uppercase = null,
 		?bool $special = null,
 		?bool $redundancy = null
-	): ?string {
+	): ?string
+	{
 		$this->clearError();
 		$this->updateParams($length, $numeric, $lowercase, $uppercase, $special, $redundancy);
 
@@ -385,7 +389,7 @@ class KeyGen
 
 	public function isError(): bool
 	{
-		return null !== $this->lastError;
+		return $this->lastError !== null;
 	}
 
 	/**
@@ -393,24 +397,24 @@ class KeyGen
 	 *
 	 * @return mixed[]|null
 	 */
-	public function getErrorInfos(): array|null
+	public function getErrorInfos(): ?array
 	{
 		return $this->lastError ?? null;
 	}
 
 	public function getErrorId(): int
 	{
-		return null !== $this->lastError ? $this->lastError['id'] : 0;
+		return $this->lastError !== null ? $this->lastError['id'] : 0;
 	}
 
 	public function getErrorCode(): ?string
 	{
-		return null !== $this->lastError ? $this->lastError['code'] : null;
+		return $this->lastError !== null ? $this->lastError['code'] : null;
 	}
 
 	public function getErrorMessage(): ?string
 	{
-		return null !== $this->lastError ? $this->lastError['message'] : null;
+		return $this->lastError !== null ? $this->lastError['message'] : null;
 	}
 
 	#endregion
