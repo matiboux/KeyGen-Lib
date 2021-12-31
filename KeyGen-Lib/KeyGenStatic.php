@@ -33,19 +33,26 @@
 namespace KeyGenLib;
 
 /**
+ * @method static int getLength()
  * @method static int getFlags()
+ * @method static bool getRedundancy()
+ * @method static bool isForcedRedundancy()
+ * @method static KeyGen setLength(?int $length, bool $useDefaultOnNull = true)
+ * @method static KeyGen setFlags(int $flags)
+ * @method static KeyGen addFlags(int $flags)
+ * @method static KeyGen removeFlags(int $flags)
+ * @method static KeyGen setRedundancy(?bool $redundancy, bool $useDefaultOnNull = true)
+ * @method static mixed[] getParams()
+ * @method static bool isDefaultParameters()
  * @method static void setParams(?int $length = null, ?bool $numeric = null, ?bool $lowercase = null, ?bool $uppercase = null, ?bool $special = null, ?bool $redundancy = null)
  * @method static void updateParams(?int $length = null, ?bool $numeric = null, ?bool $lowercase = null, ?bool $uppercase = null, ?bool $special = null, ?bool $redundancy = null)
  * @method static void resetParams()
- * @method static mixed[] getParams()
- * @method static bool isDefaultParameters()
- * @method static ?string keygen(?int $length = null, ?bool $numeric = null, ?bool $lowercase = null, ?bool $uppercase = null, ?bool $special = null, ?bool $redundancy = null)
- * @method static bool isForcedRedundancy()
  * @method static bool isError()
  * @method static ?array getErrorInfos()
  * @method static int getErrorId()
  * @method static ?string getErrorCode()
  * @method static ?string getErrorMessage()
+ * @method static ?string keygen(?int $length = null, ?bool $numeric = null, ?bool $lowercase = null, ?bool $uppercase = null, ?bool $special = null, ?bool $redundancy = null)
  *
  * @author Matiboux <matiboux@gmail.com>
  */
