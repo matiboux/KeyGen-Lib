@@ -51,6 +51,10 @@ class KeyGen
 	public const UPPERCASE = 0b0100;
 	public const SPECIAL   = 0b1000;
 
+	// Configuration mode
+	public const CURRENT_AS_FALLBACK = false;
+	public const DEFAULT_AS_FALLBACK = true;
+
 	// Default Values
 	private const DEFAULT_LENGTH = 12;
 	private const DEFAULT_FLAGS = self::NUMERIC | self::LOWERCASE | self::UPPERCASE;
@@ -78,11 +82,109 @@ class KeyGen
 
 	#endregion
 
-	#region Parameters Management
+	#region Configuration
 
+	#region Getters	/ Setters
+
+	/**
+	 * Get length
+	 */
+	public function getLength(): int
+	{
+		return $this->length;
+	}
+
+	/**
+	 * Set length
+	 */
+	public function setLength(?int $length, bool $useDefaultOnNull = true): static
+	{
+		$this->length = $length ?? ($useDefaultOnNull ? self::DEFAULT_LENGTH : $this->length);
+		$this->defaultParameters = false;
+		return $this;
+	}
+
+	/**
+	 * Get flags
+	 */
 	public function getFlags(): int
 	{
 		return $this->flags;
+	}
+
+	/**
+	 * Set flags
+	 */
+	public function setFlags(int $flags): static
+	{
+		$this->flags = $flags;
+		$this->defaultParameters = false;
+		return $this;
+	}
+
+	/**
+	 * Add flags
+	 */
+	public function addFlags(int $flags): static
+	{
+		$this->flags |= $flags;
+		$this->defaultParameters = false;
+		return $this;
+	}
+
+	/**
+	 * Remove flags
+	 */
+	public function removeFlags(int $flags): static
+	{
+		$this->flags &= ~$flags;
+		$this->defaultParameters = false;
+		return $this;
+	}
+
+	/**
+	 * Get redundancy
+	 */
+	public function getRedundancy(): bool
+	{
+		return $this->redundancy;
+	}
+
+	/**
+	 * Set redundancy
+	 */
+	public function setRedundancy(?bool $redundancy, bool $useDefaultOnNull = true): static
+	{
+		$this->redundancy = $redundancy ?? ($useDefaultOnNull ? self::DEFAULT_REDUNDANCY : $this->redundancy);
+		$this->defaultParameters = false;
+		return $this;
+	}
+
+	#endregion
+
+	#region Configuration methods
+
+	public function computeFlags(
+		?bool $numeric = null,
+		?bool $lowercase = null,
+		?bool $uppercase = null,
+		?bool $special = null,
+	): int {
+		$flags = 0;
+		if ($numeric) {
+			$flags |= self::NUMERIC;
+		}
+		if ($lowercase) {
+			$flags |= self::LOWERCASE;
+		}
+		if ($uppercase) {
+			$flags |= self::UPPERCASE;
+		}
+		if ($special) {
+			$flags |= self::SPECIAL;
+		}
+
+		return $flags;
 	}
 
 	public function applyFlags(
@@ -92,7 +194,6 @@ class KeyGen
 		?bool $special = null,
 	): int {
 		$flags = $this->flags;
-
 		if ($numeric !== null) {
 			$flags = $numeric ? ($flags | $this->NUMERIC) : ($flags & ~$this->NUMERIC);
 		}
@@ -139,10 +240,15 @@ class KeyGen
 		?bool $uppercase = null,
 		?bool $special = null,
 		?bool $redundancy = null,
+		bool $resetConfig = true,
 	): void {
-		$this->length = $length ?? self::DEFAULT_LENGTH;
-		$this->flags = $this->getFlags($numeric, $lowercase, $uppercase, $special);
-		$this->redundancy = $redundancy ?? self::DEFAULT_REDUNDANCY;
+		$this->setLength($length, $resetConfig);
+		$this->setFlags(
+			$resetConfig
+			? $this->computeFlags($numeric, $lowercase, $uppercase, $special)
+			: $this->applyFlags($numeric, $lowercase, $uppercase, $special)
+		);
+		$this->setRedundancy($redundancy, $resetConfig);
 
 		if ($this->getParams() == $this->getDefaultParams()) {
 			$this->defaultParameters = true;
@@ -159,25 +265,15 @@ class KeyGen
 		?bool $special = null,
 		?bool $redundancy = null,
 	): void {
-		if (isset($length)) {
-			$this->length = $length;
-		} elseif (!isset($this->length)) {
-			$this->length = self::DEFAULT_LENGTH;
-		}
-
-		$this->flags = $this->getFlags($numeric, $lowercase, $uppercase, $special);
-
-		if (isset($redundancy)) {
-			$this->redundancy = $redundancy;
-		} elseif (!isset($this->redundancy)) {
-			$this->redundancy = self::DEFAULT_REDUNDANCY;
-		}
-
-		if ($this->getParams() == $this->getDefaultParams()) {
-			$this->defaultParameters = true;
-		} else {
-			$this->defaultParameters = false;
-		}
+		$this->setParams(
+			$length,
+			$numeric,
+			$lowercase,
+			$uppercase,
+			$special,
+			$redundancy,
+			false,
+		);
 	}
 
 	public function resetParams(): void
@@ -219,6 +315,8 @@ class KeyGen
 	{
 		return $this->defaultParameters;
 	}
+
+	#endregion
 
 	#endregion
 
