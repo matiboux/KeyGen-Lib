@@ -92,7 +92,7 @@ class KeyGen
 
 	#region Configuration
 
-	#region Getters	/ Setters
+	#region Property getters
 
 	/**
 	 * Get length
@@ -103,20 +103,37 @@ class KeyGen
 	}
 
 	/**
+	 * Get flags
+	 */
+	public function getFlags(): int
+	{
+		return $this->flags;
+	}
+
+	/**
+	 * Get redundancy
+	 */
+	public function getRedundancy(): bool
+	{
+		return $this->redundancy;
+	}
+
+	public function isForcedRedundancy(): bool
+	{
+		return $this->forcedRedundancy;
+	}
+
+	#endregion
+
+	#region Property setters
+
+	/**
 	 * Set length
 	 */
 	public function setLength(?int $length, bool $useDefaultOnNull = true): static
 	{
 		$this->length = $length ?? ($useDefaultOnNull ? self::DEFAULT_LENGTH : $this->length);
 		return $this;
-	}
-
-	/**
-	 * Get flags
-	 */
-	public function getFlags(): int
-	{
-		return $this->flags;
 	}
 
 	/**
@@ -147,14 +164,6 @@ class KeyGen
 	}
 
 	/**
-	 * Get redundancy
-	 */
-	public function getRedundancy(): bool
-	{
-		return $this->redundancy;
-	}
-
-	/**
 	 * Set redundancy
 	 */
 	public function setRedundancy(?bool $redundancy, bool $useDefaultOnNull = true): static
@@ -165,7 +174,84 @@ class KeyGen
 
 	#endregion
 
-	#region Configuration methods
+	#region Custom getters
+
+	/**
+	 * @return mixed[]
+	 */
+	public function getParams(): array
+	{
+		return [
+			'length' => $this->length,
+			'numeric' => ($this->flags & self::NUMERIC) === self::NUMERIC,
+			'lowercase' => ($this->flags & self::LOWERCASE) === self::LOWERCASE,
+			'uppercase' => ($this->flags & self::UPPERCASE) === self::UPPERCASE,
+			'special' => ($this->flags & self::SPECIAL) === self::SPECIAL,
+			'redundancy' => $this->redundancy,
+		];
+	}
+
+	public function isDefaultParameters(): bool
+	{
+		return self::DEFAULT_PARAMS === $this->getParams();
+	}
+
+	#endregion
+
+	#region Custom setters
+
+	public function setParams(
+		?int $length = null,
+		?bool $numeric = null,
+		?bool $lowercase = null,
+		?bool $uppercase = null,
+		?bool $special = null,
+		?bool $redundancy = null,
+		bool $resetConfig = true,
+	): void
+	{
+		$this->setLength($length, $resetConfig);
+
+		$this->setFlags(
+			$resetConfig
+			? $this->computeFlags($numeric, $lowercase, $uppercase, $special)
+			: $this->applyFlags($numeric, $lowercase, $uppercase, $special)
+		);
+
+		$this->setRedundancy($redundancy, $resetConfig);
+	}
+
+	public function updateParams(
+		?int $length = null,
+		?bool $numeric = null,
+		?bool $lowercase = null,
+		?bool $uppercase = null,
+		?bool $special = null,
+		?bool $redundancy = null,
+	): void {
+		$this->setParams(
+			$length,
+			$numeric,
+			$lowercase,
+			$uppercase,
+			$special,
+			$redundancy,
+			false,
+		);
+	}
+
+	public function resetParams(): void
+	{
+		$this->setParams();
+	}
+
+	#endregion
+
+	#endregion
+
+	#region Helper methods
+
+	#region Flags
 
 	public function computeFlags(
 		?bool $numeric = null,
@@ -215,6 +301,10 @@ class KeyGen
 		return $flags;
 	}
 
+	#endregion
+
+	#region Characters sets
+
 	public function getCharactersSet(?int $flags = null): string
 	{
 		if ($flags === null) {
@@ -238,78 +328,115 @@ class KeyGen
 		return $set;
 	}
 
-	public function setParams(
-		?int $length = null,
-		?bool $numeric = null,
-		?bool $lowercase = null,
-		?bool $uppercase = null,
-		?bool $special = null,
-		?bool $redundancy = null,
-		bool $resetConfig = true,
-	): void
+	#endregion
+
+	#endregion
+
+	#region Error management
+
+	#region Getters
+
+	public function isError(): bool
 	{
-		$this->setLength($length, $resetConfig);
-
-		$this->setFlags(
-			$resetConfig
-			? $this->computeFlags($numeric, $lowercase, $uppercase, $special)
-			: $this->applyFlags($numeric, $lowercase, $uppercase, $special)
-		);
-
-		$this->setRedundancy($redundancy, $resetConfig);
-	}
-
-	public function updateParams(
-		?int $length = null,
-		?bool $numeric = null,
-		?bool $lowercase = null,
-		?bool $uppercase = null,
-		?bool $special = null,
-		?bool $redundancy = null,
-	): void {
-		$this->setParams(
-			$length,
-			$numeric,
-			$lowercase,
-			$uppercase,
-			$special,
-			$redundancy,
-			false,
-		);
-	}
-
-	public function resetParams(): void
-	{
-		$this->setParams();
+		return $this->lastError !== null;
 	}
 
 	/**
-	 * @return mixed[]
+	 * Get Error Infos.
+	 *
+	 * @return mixed[]|null
 	 */
-	public function getParams(): array
+	public function getErrorInfos(): ?array
 	{
-		return [
-			'length' => $this->length,
-			'numeric' => ($this->flags & self::NUMERIC) === self::NUMERIC,
-			'lowercase' => ($this->flags & self::LOWERCASE) === self::LOWERCASE,
-			'uppercase' => ($this->flags & self::UPPERCASE) === self::UPPERCASE,
-			'special' => ($this->flags & self::SPECIAL) === self::SPECIAL,
-			'redundancy' => $this->redundancy,
-		];
+		return $this->lastError ?? null;
 	}
 
-	public function isDefaultParameters(): bool
+	public function getErrorId(): int
 	{
-		return self::DEFAULT_PARAMS === $this->getParams();
+		return $this->lastError !== null ? $this->lastError['id'] : 0;
+	}
+
+	public function getErrorCode(): ?string
+	{
+		return $this->lastError !== null ? $this->lastError['code'] : null;
+	}
+
+	public function getErrorMessage(): ?string
+	{
+		return $this->lastError !== null ? $this->lastError['message'] : null;
+	}
+
+	#endregion
+
+	#region Setters
+
+	/** Set Error */
+	private function setError(int|string $id): void
+	{
+		if (array_search($id, $errorInfos = [
+			'id' => 2,
+			'code' => 'ERR_EMPTY_LENGTH',
+			'message' => 'The keygen length parameter cannot be empty.'
+		]))
+		{
+			$this->lastError = $errorInfos;
+		}
+		elseif (array_search($id, $errorInfos = [
+			'id' => 3,
+			'code' => 'ERR_NEGATIVE_LENGTH',
+			'message' => 'The keygen length parameter cannot be negative.'
+		]))
+		{
+			$this->lastError = $errorInfos;
+		}
+		elseif (array_search($id, $errorInfos = [
+			'id' => 4,
+			'code' => 'ERR_LENGTH_NULL',
+			'message' => 'The keygen length parameter cannot be null.'
+		]))
+		{
+			$this->lastError = $errorInfos;
+		}
+		elseif (array_search($id, $errorInfos = [
+			'id' => 5,
+			'code' => 'ERR_EMPTY_CHARACTERS_SET',
+			'message' => 'The character set cannot be empty.'
+		]))
+		{
+			$this->lastError = $errorInfos;
+		}
+		elseif (array_search($id, $errorInfos = [
+			'id' => 6,
+			'code' => 'ERR_LENGTH_NOT_NUMERIC',
+			'message' => 'The keygen length parameter must be numeric.'
+		]))
+		{
+			$this->lastError = $errorInfos;
+		}
+		else
+		{
+			$this->lastError = [
+				'id' => 1,
+				'code' => 'ERR_UNKNOWN',
+				'message' => 'An unknown error occurred.'
+			];
+		}
+	}
+
+	private function clearError(): void
+	{
+		$this->lastError = null;
 	}
 
 	#endregion
 
 	#endregion
 
-	#region KeyGen Core functions
+	#region Keygen generation
 
-	/** Keygen Generator */
+	/**
+	 * Keygen generation method
+	 */
 	public function keygen(
 		?int $length = null,
 		?bool $numeric = null,
@@ -351,68 +478,6 @@ class KeyGen
 		}
 
 		return $keygen;
-	}
-
-	public function isForcedRedundancy(): bool
-	{
-		return $this->forcedRedundancy;
-	}
-
-	#endregion
-
-	#region Error Management
-
-	/** Set Error */
-	private function setError(int|string $id): void
-	{
-		if (array_search($id, $errorInfos = ['id' => 2, 'code' => 'ERR_EMPTY_LENGTH', 'message' => 'The keygen length parameter cannot be empty.'])) {
-			$this->lastError = $errorInfos;
-		} elseif (array_search($id, $errorInfos = ['id' => 3, 'code' => 'ERR_NEGATIVE_LENGTH', 'message' => 'The keygen length parameter cannot be negative.'])) {
-			$this->lastError = $errorInfos;
-		} elseif (array_search($id, $errorInfos = ['id' => 4, 'code' => 'ERR_LENGTH_NULL', 'message' => 'The keygen length parameter cannot be null.'])) {
-			$this->lastError = $errorInfos;
-		} elseif (array_search($id, $errorInfos = ['id' => 5, 'code' => 'ERR_EMPTY_CHARACTERS_SET', 'message' => 'The character set cannot be empty.'])) {
-			$this->lastError = $errorInfos;
-		} elseif (array_search($id, $errorInfos = ['id' => 6, 'code' => 'ERR_LENGTH_NOT_NUMERIC', 'message' => 'The keygen length parameter must be numeric.'])) {
-			$this->lastError = $errorInfos;
-		} else {
-			$this->lastError = ['id' => 1, 'code' => 'ERR_UNKNOWN', 'message' => 'An unknown error occurred.'];
-		}
-	}
-
-	private function clearError(): void
-	{
-		$this->lastError = null;
-	}
-
-	public function isError(): bool
-	{
-		return $this->lastError !== null;
-	}
-
-	/**
-	 * Get Error Infos.
-	 *
-	 * @return mixed[]|null
-	 */
-	public function getErrorInfos(): ?array
-	{
-		return $this->lastError ?? null;
-	}
-
-	public function getErrorId(): int
-	{
-		return $this->lastError !== null ? $this->lastError['id'] : 0;
-	}
-
-	public function getErrorCode(): ?string
-	{
-		return $this->lastError !== null ? $this->lastError['code'] : null;
-	}
-
-	public function getErrorMessage(): ?string
-	{
-		return $this->lastError !== null ? $this->lastError['message'] : null;
 	}
 
 	#endregion
