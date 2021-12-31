@@ -37,6 +37,8 @@ namespace KeyGenLib;
  */
 class KeyGen
 {
+	#region Static properties
+
 	// Characters sets
 	public const NUMERIC_SET = '1234567890';
 	public const LOWERCASE_SET = 'abcdefghijklmnopqrstuvwxyz';
@@ -54,6 +56,10 @@ class KeyGen
 	private const DEFAULT_FLAGS = self::NUMERIC | self::LOWERCASE | self::UPPERCASE;
 	private const DEFAULT_REDUNDANCY = true;
 
+	#endregion
+
+	#region Properties
+
 	// Parameters
 	private int $length = self::DEFAULT_LENGTH;
 	private int $flags = self::DEFAULT_FLAGS;
@@ -70,9 +76,9 @@ class KeyGen
 	 */
 	private ?array $lastError = null;
 
-	/** ----------------------- */
-	/**  Parameters Management  */
-	/** ----------------------- */
+	#endregion
+
+	#region Parameters Management
 
 	public function getFlags(): int
 	{
@@ -214,9 +220,9 @@ class KeyGen
 		return $this->defaultParameters;
 	}
 
-	/** ---------------------- */
-	/**  KeyGen Core functions */
-	/** ---------------------- */
+	#endregion
+
+	#region KeyGen Core functions
 
 	/** Keygen Generator */
 	public function keygen(
@@ -268,9 +274,9 @@ class KeyGen
 		return $this->forcedRedundancy;
 	}
 
-	/** ------------------ */
-	/**  Error Management  */
-	/** ------------------ */
+	#endregion
+
+	#region Error Management
 
 	/** Set Error */
 	private function setError(int|string $id): void
@@ -324,4 +330,6 @@ class KeyGen
 	{
 		return null !== $this->lastError ? $this->lastError['message'] : null;
 	}
+
+	#endregion
 }
