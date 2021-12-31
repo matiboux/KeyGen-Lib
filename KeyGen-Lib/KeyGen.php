@@ -342,13 +342,19 @@ class KeyGen
 	}
 
 	/**
-	 * Get Error Infos.
-	 *
+	 * @return mixed[]|null
+	 */
+	public function getError(): ?array
+	{
+		return $this->lastError ?? null;
+	}
+
+	/**
 	 * @return mixed[]|null
 	 */
 	public function getErrorInfos(): ?array
 	{
-		return $this->lastError ?? null;
+		return $this->getError();
 	}
 
 	public function getErrorId(): int
