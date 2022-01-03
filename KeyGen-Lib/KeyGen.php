@@ -17,17 +17,17 @@
  * You'll find a copy of the MIT license in the LICENSE file.
  *
  * @author Matiboux <matiboux@gmail.com>
- *
  * @copyright 2017 Matiboux (Mathieu Guérin)
  * @license https://opensource.org/licenses/MIT
  *
- * @version 1.2.0
+ * @version 1.2.1
  *
  * Releases date:
  * - v1.0.0: April 15, 2017
  * - v1.0.1: April 17, 2017
  * - v1.1.0: Sept. 24, 2018
  * - v1.2.0: Jan. 3, 2022
+ * - v1.2.1: Jan. 3, 2022
  */
 
 namespace KeyGenLib;
@@ -37,7 +37,7 @@ namespace KeyGenLib;
  */
 class KeyGen
 {
-	#region Static properties
+	//region Static properties
 
 	// Characters sets
 	public const NUMERIC_SET = '1234567890';
@@ -46,10 +46,10 @@ class KeyGen
 	public const SPECIAL_SET = '!@#$%^&*()_+-=[]{}|;\':",./<>?';
 
 	// Flags
-	public const NUMERIC   = 0b0001;
+	public const NUMERIC = 0b0001;
 	public const LOWERCASE = 0b0010;
 	public const UPPERCASE = 0b0100;
-	public const SPECIAL   = 0b1000;
+	public const SPECIAL = 0b1000;
 
 	// Configuration mode
 	public const CURRENT_AS_FALLBACK = false;
@@ -69,9 +69,9 @@ class KeyGen
 		'redundancy' => self::DEFAULT_REDUNDANCY,
 	];
 
-	#endregion
+	//endregion
 
-	#region Properties
+	//region Properties
 
 	// Parameters
 	private int $length = self::DEFAULT_LENGTH;
@@ -82,20 +82,20 @@ class KeyGen
 	private bool $forcedRedundancy = false;
 
 	/**
-	 * Last error
+	 * Last error.
 	 *
 	 * @var mixed[]|null
 	 */
 	private ?array $lastError = null;
 
-	#endregion
+	//endregion
 
-	#region Configuration
+	//region Configuration
 
-	#region Property getters
+	//region Property getters
 
 	/**
-	 * Get length
+	 * Get length.
 	 */
 	public function getLength(): int
 	{
@@ -103,7 +103,7 @@ class KeyGen
 	}
 
 	/**
-	 * Get flags
+	 * Get flags.
 	 */
 	public function getFlags(): int
 	{
@@ -111,7 +111,7 @@ class KeyGen
 	}
 
 	/**
-	 * Get redundancy
+	 * Get redundancy.
 	 */
 	public function getRedundancy(): bool
 	{
@@ -123,58 +123,63 @@ class KeyGen
 		return $this->forcedRedundancy;
 	}
 
-	#endregion
+	//endregion
 
-	#region Property setters
+	//region Property setters
 
 	/**
-	 * Set length
+	 * Set length.
 	 */
 	public function setLength(?int $length, bool $useDefaultOnNull = true): static
 	{
 		$this->length = $length ?? ($useDefaultOnNull ? self::DEFAULT_LENGTH : $this->length);
+
 		return $this;
 	}
 
 	/**
-	 * Set flags
+	 * Set flags.
 	 */
 	public function setFlags(int $flags): static
 	{
 		$this->flags = $flags;
+
 		return $this;
 	}
 
 	/**
-	 * Add flags
+	 * Add flags.
 	 */
 	public function addFlags(int $flags): static
 	{
 		$this->flags |= $flags;
+
 		return $this;
 	}
 
 	/**
-	 * Remove flags
+	 * Remove flags.
 	 */
 	public function removeFlags(int $flags): static
 	{
 		$this->flags &= ~$flags;
+
 		return $this;
 	}
 
 	/**
-	 * Set redundancy
+	 * Set redundancy.
 	 */
 	public function setRedundancy(?bool $redundancy, bool $useDefaultOnNull = true): static
 	{
 		$this->redundancy = $redundancy ?? ($useDefaultOnNull ? self::DEFAULT_REDUNDANCY : $this->redundancy);
+
 		return $this;
 	}
 
-	#endregion
+	//endregion
 
-	#region Custom getters
+	//region Custom getters
 
 	/**
 	 * @return mixed[]
@@ -196,9 +201,9 @@ class KeyGen
 		return self::DEFAULT_PARAMS === $this->getParams();
 	}
 
-	#endregion
+	//endregion
 
-	#region Custom setters
+	//region Custom setters
 
 	public function setParams(
 		?int $length = null,
@@ -208,8 +213,7 @@ class KeyGen
 		?bool $special = null,
 		?bool $redundancy = null,
 		bool $resetConfig = true,
-	): void
-	{
+	): void {
 		$this->setLength($length, $resetConfig);
 
 		$this->setFlags(
@@ -245,19 +249,19 @@ class KeyGen
 		$this->setParams();
 	}
 
-	#endregion
+	//endregion
 
-	#endregion
+	//endregion
 
-	#region Helper methods
+	//region Helper methods
 
-	#region Flags
+	//region Flags
 
 	public function computeFlags(
-		bool $numeric = false,
-		bool $lowercase = false,
-		bool $uppercase = false,
-		bool $special = false,
+		?bool $numeric = false,
+		?bool $lowercase = false,
+		?bool $uppercase = false,
+		?bool $special = false,
 	): int
 	{
 		$flags = 0;
@@ -286,24 +290,24 @@ class KeyGen
 	{
 		$flags = $this->flags;
 		if ($numeric !== null) {
-			$flags = $numeric ? ($flags | $this->NUMERIC) : ($flags & ~$this->NUMERIC);
+			$flags = $numeric ? ($flags | self::NUMERIC) : ($flags & ~self::NUMERIC);
 		}
 		if ($lowercase !== null) {
-			$flags = $lowercase ? ($flags | $this->LOWERCASE) : ($flags & ~$this->LOWERCASE);
+			$flags = $lowercase ? ($flags | self::LOWERCASE) : ($flags & ~self::LOWERCASE);
 		}
 		if ($uppercase !== null) {
-			$flags = $uppercase ? ($flags | $this->UPPERCASE) : ($flags & ~$this->UPPERCASE);
+			$flags = $uppercase ? ($flags | self::UPPERCASE) : ($flags & ~self::UPPERCASE);
 		}
 		if ($special !== null) {
-			$flags = $special ? ($flags | $this->SPECIAL) : ($flags & ~$this->SPECIAL);
+			$flags = $special ? ($flags | self::SPECIAL) : ($flags & ~self::SPECIAL);
 		}
 
 		return $flags;
 	}
 
-	#endregion
+	//endregion
 
-	#region Characters sets
+	//region Characters sets
 
 	public function getCharactersSet(?int $flags = null): string
 	{
@@ -328,13 +332,13 @@ class KeyGen
 		return $set;
 	}
 
-	#endregion
+	//endregion
 
-	#endregion
+	//endregion
 
-	#region Error management
+	//region Error management
 
-	#region Getters
+	//region Getters
 
 	public function isError(): bool
 	{
@@ -372,9 +376,9 @@ class KeyGen
 		return $this->lastError !== null ? $this->lastError['message'] : null;
 	}
 
-	#endregion
+	//endregion
 
-	#region Setters
+	//region Setters
 
 	/** Set Error */
 	private function setError(int|string $id): void
@@ -382,7 +386,7 @@ class KeyGen
 		if (array_search($id, $errorInfos = [
 			'id' => 2,
 			'code' => 'ERR_EMPTY_LENGTH',
-			'message' => 'The keygen length parameter cannot be empty.'
+			'message' => 'The keygen length parameter cannot be empty.',
 		]))
 		{
 			$this->lastError = $errorInfos;
@@ -390,7 +394,7 @@ class KeyGen
 		elseif (array_search($id, $errorInfos = [
 			'id' => 3,
 			'code' => 'ERR_NEGATIVE_LENGTH',
-			'message' => 'The keygen length parameter cannot be negative.'
+			'message' => 'The keygen length parameter cannot be negative.',
 		]))
 		{
 			$this->lastError = $errorInfos;
@@ -398,15 +402,15 @@ class KeyGen
 		elseif (array_search($id, $errorInfos = [
 			'id' => 4,
 			'code' => 'ERR_LENGTH_NULL',
-			'message' => 'The keygen length parameter cannot be null.'
-		]))
-		{
+			'message' => 'The keygen length parameter cannot be null.',
+			]))
+			{
 			$this->lastError = $errorInfos;
 		}
 		elseif (array_search($id, $errorInfos = [
 			'id' => 5,
 			'code' => 'ERR_EMPTY_CHARACTERS_SET',
-			'message' => 'The character set cannot be empty.'
+			'message' => 'The character set cannot be empty.',
 		]))
 		{
 			$this->lastError = $errorInfos;
@@ -414,7 +418,7 @@ class KeyGen
 		elseif (array_search($id, $errorInfos = [
 			'id' => 6,
 			'code' => 'ERR_LENGTH_NOT_NUMERIC',
-			'message' => 'The keygen length parameter must be numeric.'
+			'message' => 'The keygen length parameter must be numeric.',
 		]))
 		{
 			$this->lastError = $errorInfos;
@@ -424,7 +428,7 @@ class KeyGen
 			$this->lastError = [
 				'id' => 1,
 				'code' => 'ERR_UNKNOWN',
-				'message' => 'An unknown error occurred.'
+				'message' => 'An unknown error occurred.',
 			];
 		}
 	}
@@ -434,14 +438,14 @@ class KeyGen
 		$this->lastError = null;
 	}
 
-	#endregion
+	//endregion
 
-	#endregion
+	//endregion
 
-	#region Keygen generation
+	//region Keygen generation
 
 	/**
-	 * Keygen generation method
+	 * Keygen generation method.
 	 */
 	public function keygen(
 		?int $length = null,
@@ -486,5 +490,5 @@ class KeyGen
 		return $keygen;
 	}
 
-	#endregion
+	//endregion
 }

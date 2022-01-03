@@ -1,4 +1,5 @@
 <?php
+
 /**
  *  KeyGen Lib API
  *  An open source PHP library for random password generation.
@@ -9,13 +10,14 @@
  *  Visit the Github repository: https://github.com/matiboux/KeyGen-Lib
  */
 
-define('API_VERSION', 'v1.2.0');
+define('API_VERSION', 'v1.2.1');
 define('API_REPOSITORY', 'https://github.com/matiboux/KeyGen-Lib');
 
-/** API Content Type */
+// API Content Type
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
-/** ------ */
+
+// ------
 
 require 'KeyGen-Lib/KeyGen-Lib.php';
 use \KeyGenLib\KeyGenStatic as KeyGen;
@@ -23,13 +25,11 @@ use \KeyGenLib\KeyGenStatic as KeyGen;
 $_ = array_merge($_GET, $_POST);
 $result = [];
 
-/** Params:
- * - "numeric" or "num": boolean
- * - "lowercase" or "low": boolean
- * - "uppercase" or "upp": boolean
- * - "special" or "spe": boolean
-
-/** Keygen Generation */
+// Params:
+// - "numeric" or "num": boolean
+// - "lowercase" or "low": boolean
+// - "uppercase" or "upp": boolean
+// - "special" or "spe": boolean
 $numeric = isset($_['numeric']) ? $_['numeric'] : (isset($_['num']) ? $_['num'] : null);
 $lowercase = isset($_['lowercase']) ? $_['lowercase'] : (isset($_['low']) ? $_['low'] : null);
 $uppercase = isset($_['uppercase']) ? $_['uppercase'] : (isset($_['upp']) ? $_['upp'] : null);

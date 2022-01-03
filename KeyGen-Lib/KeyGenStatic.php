@@ -12,11 +12,10 @@
  * You'll find a copy of the MIT license in the LICENSE file.
  *
  * @author Matiboux <matiboux@gmail.com>
- *
  * @copyright 2017 Matiboux (Mathieu Guérin)
  * @license https://opensource.org/licenses/MIT
  *
- * @version 1.2.0
+ * @version 1.2.1
  */
 
 namespace KeyGenLib;
@@ -47,7 +46,7 @@ namespace KeyGenLib;
  */
 class KeyGenStatic
 {
-	#region Static context use
+	//region Static context use
 
 	private static KeyGen $instance;
 
@@ -62,15 +61,14 @@ class KeyGenStatic
 	}
 
 	/**
-	 * @param string $name
 	 * @param mixed[] $arguments
-	 * @return mixed
 	 */
-    public static function __callStatic(string $name, array $arguments): mixed
-    {
+	public static function __callStatic(string $name, array $arguments): mixed
+	{
 		$instance = self::getStaticInstance();
-		return $instance->$name(...$arguments);
-    }
 
-	#endregion
+		return $instance->$name(...$arguments);
+	}
+
+	//endregion
 }
