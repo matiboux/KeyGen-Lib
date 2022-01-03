@@ -1,4 +1,4 @@
-# KeyGen Lib – v1.1.0
+# KeyGen Lib – v1.2.0
 
 **KeyGen Library** is an *open source PHP library for random password generation*.  
 Want to know more about KeyGen or its creator? [Go to the "About" section](#about)!
