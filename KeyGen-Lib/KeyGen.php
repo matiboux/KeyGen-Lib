@@ -254,10 +254,10 @@ class KeyGen
 	#region Flags
 
 	public function computeFlags(
-		?bool $numeric = null,
-		?bool $lowercase = null,
-		?bool $uppercase = null,
-		?bool $special = null,
+		bool $numeric = false,
+		bool $lowercase = false,
+		bool $uppercase = false,
+		bool $special = false,
 	): int
 	{
 		$flags = 0;
