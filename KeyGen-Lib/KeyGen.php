@@ -290,16 +290,16 @@ class KeyGen
 	{
 		$flags = $this->flags;
 		if ($numeric !== null) {
-			$flags = $numeric ? ($flags | $this->NUMERIC) : ($flags & ~$this->NUMERIC);
+			$flags = $numeric ? ($flags | self::NUMERIC) : ($flags & ~self::NUMERIC);
 		}
 		if ($lowercase !== null) {
-			$flags = $lowercase ? ($flags | $this->LOWERCASE) : ($flags & ~$this->LOWERCASE);
+			$flags = $lowercase ? ($flags | self::LOWERCASE) : ($flags & ~self::LOWERCASE);
 		}
 		if ($uppercase !== null) {
-			$flags = $uppercase ? ($flags | $this->UPPERCASE) : ($flags & ~$this->UPPERCASE);
+			$flags = $uppercase ? ($flags | self::UPPERCASE) : ($flags & ~self::UPPERCASE);
 		}
 		if ($special !== null) {
-			$flags = $special ? ($flags | $this->SPECIAL) : ($flags & ~$this->SPECIAL);
+			$flags = $special ? ($flags | self::SPECIAL) : ($flags & ~self::SPECIAL);
 		}
 
 		return $flags;
