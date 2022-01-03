@@ -20,13 +20,14 @@
  * @copyright 2017 Matiboux (Mathieu Guérin)
  * @license https://opensource.org/licenses/MIT
  *
- * @version 1.2.0
+ * @version 1.2.1
  *
  * Releases date:
  * - v1.0.0: April 15, 2017
  * - v1.0.1: April 17, 2017
  * - v1.1.0: Sept. 24, 2018
  * - v1.2.0: Jan. 3, 2022
+ * - v1.2.1: Jan. 3, 2022
  */
 
 namespace KeyGenLib;
@@ -212,8 +213,7 @@ class KeyGen
 		?bool $special = null,
 		?bool $redundancy = null,
 		bool $resetConfig = true,
-	): void
-	{
+	): void {
 		$this->setLength($length, $resetConfig);
 
 		$this->setFlags(
