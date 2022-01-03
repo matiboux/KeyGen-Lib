@@ -9,7 +9,7 @@
  *  Visit the Github repository: https://github.com/matiboux/KeyGen-Lib
  */
 
-define('API_VERSION', 'v1.1.0');
+define('API_VERSION', 'v1.2.0');
 define('API_REPOSITORY', 'https://github.com/matiboux/KeyGen-Lib');
 
 /** API Content Type */

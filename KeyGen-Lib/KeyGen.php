@@ -27,7 +27,7 @@
  * - v1.0.0: April 15, 2017
  * - v1.0.1: April 17, 2017
  * - v1.1.0: Sept. 24, 2018
- * - v1.2.0: WIP
+ * - v1.2.0: Jan. 3, 2022
  */
 
 namespace KeyGenLib;
